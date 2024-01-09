@@ -111,822 +111,826 @@ angles = np.linspace(0, 2 * np.pi, len(numeric_columns), endpoint=False)
 angles = np.concatenate((angles, [angles[0]]))
 
 # Use cases for creating radar charts
-if position[0] == 'PG':
-    top_point_guards = all_data[all_data['Pos.'] == 'PG']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+if position: 
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label= f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]}')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+    if position[0] == 'PG':
+        top_point_guards = all_data[all_data['Pos.'] == 'PG']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label= f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]}')
+            plt.legend(loc='upper right', bbox_to_anchor=(1,1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position [0] == 'SG':
-    top_point_guards = all_data[all_data['Pos.'] == 'SG']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label= f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position [0] == 'SG':
+        top_point_guards = all_data[all_data['Pos.'] == 'SG']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label= f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position [0] == 'SF':
-    top_point_guards = all_data[all_data['Pos.'] == 'SF']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position [0] == 'SF':
+        top_point_guards = all_data[all_data['Pos.'] == 'SF']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position [0] == 'PF':
-    top_point_guards = all_data[all_data['Pos.'] == 'PF']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position [0] == 'PF':
+        top_point_guards = all_data[all_data['Pos.'] == 'PF']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1,1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position[0] == 'C':
-    top_point_guards = all_data[all_data['Pos.'] == 'C']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position[0] == 'C':
+        top_point_guards = all_data[all_data['Pos.'] == 'C']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position[0] == 'C':
-    top_point_guards = all_data[all_data['Pos.'] == 'C']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position[0] == 'C':
+        top_point_guards = all_data[all_data['Pos.'] == 'C']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position[0] == 'PF/C':
-    top_point_guards = all_data[all_data['Pos.'] == 'PF/C']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position[0] == 'PF/C':
+        top_point_guards = all_data[all_data['Pos.'] == 'PF/C']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position[0] == 'SF/C':
-    top_point_guards = all_data[all_data['Pos.'] == 'SF/C']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position[0] == 'SF/C':
+        top_point_guards = all_data[all_data['Pos.'] == 'SF/C']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
-elif position [0] == 'SF/PF':
-    top_point_guards = all_data[all_data['Pos.'] == 'SF/PF']
-    if player1:
-        player_name = player1[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+    elif position [0] == 'SF/PF':
+        top_point_guards = all_data[all_data['Pos.'] == 'SF/PF']
+        if player1:
+            player_name = player1[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player2:
-        player_name = player2[0]
-        selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label=f'Avg {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg {position[0]} Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player1[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
 
-        # Calculate percentile ranks for the selected player
-        player_data = selected_player_row[numeric_columns]
-        percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
-        percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
-        
-        # Calculate average values and percentile ranks for remaining point guards
-        avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
-        percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
-        percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
-        
-        # Create the radar chart
-        fig = plt.figure(figsize=(12, 9))
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
-        ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
-        ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label= f'Average {position[0]}')
-        plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
-        plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
-        plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-        plt.style.use('dark_background')
-        st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
-        st.pyplot(fig)
+        if player2:
+            player_name = player2[0]
+            selected_player_row = top_point_guards[top_point_guards['Player'] == player_name]
 
-    if player1 and player2:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
-        st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
-        # Plot for Player 1
-        player_name1 = player1[0]
-        selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
-        player_data1 = selected_player_row1[numeric_columns]
-        percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
-        percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
-        ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
-        ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
-        ax1.set_xticks(angles[:-1])
-        ax1.set_xticklabels(numeric_columns, color='white', size=8)
-        ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
-        
-        # Plot for Player 2
-        player_name2 = player2[0]
-        selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
-        player_data2 = selected_player_row2[numeric_columns]
-        percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
-        percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
-        ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
-        ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
-        ax2.set_xticks(angles[:-1])
-        ax2.set_xticklabels(numeric_columns, color='white', size=8)
-        ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
-        ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
-        
-        # Final adjustments
-        plt.subplots_adjust(wspace=0.4)
-        plt.style.use('dark_background')
-        st.pyplot(fig)
+            # Calculate percentile ranks for the selected player
+            player_data = selected_player_row[numeric_columns]
+            percentile_ranks_player = [percentileofscore(league_data[column], player_data[column]) for column in numeric_columns]
+            percentile_ranks_player = [rank / 100 for rank in percentile_ranks_player]  # Convert to floats
+            
+            # Calculate average values and percentile ranks for remaining point guards
+            avg_point_guards = top_point_guards[top_point_guards['Player'] != player_name][numeric_columns].mean()
+            percentile_ranks_avg = [percentileofscore(league_data[column], avg_point_guards[column]) for column in numeric_columns]
+            percentile_ranks_avg = [rank / 100 for rank in percentile_ranks_avg]  # Convert to floats
+            
+            # Create the radar chart
+            fig = plt.figure(figsize=(12, 9))
+            ax = plt.subplot(111, polar=True)
+            ax.plot(angles, percentile_ranks_player + [percentile_ranks_player[0]], linewidth=2, label=player_name)
+            ax.fill(angles, percentile_ranks_player + [percentile_ranks_player[0]], alpha=0.25)
+            ax.plot(angles, percentile_ranks_avg + [percentile_ranks_avg[0]], linewidth=2, label= f'Average {position[0]}')
+            plt.xticks(angles[:-1], numeric_columns, color='white', size=8)
+            plt.yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            plt.title(f'{player_name} vs. Avg ' + position[0]+ ' Percentile Comparison')
+            plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
+            plt.style.use('dark_background')
+            st.subheader(player2[0]+' vs. League Average ' + position[0] + 's in NBA 2K League Season 6')
+            st.pyplot(fig)
+
+        if player1 and player2:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9), subplot_kw={'polar': True})
+            st.subheader(player1[0]+' vs. ' + player2[0] + ' side by side comparison at '+ position[0] + ' (Season 6)')
+            # Plot for Player 1
+            player_name1 = player1[0]
+            selected_player_row1 = top_point_guards[top_point_guards['Player'] == player_name1]
+            player_data1 = selected_player_row1[numeric_columns]
+            percentile_ranks_player1 = [percentileofscore(league_data[column], player_data1[column]) for column in numeric_columns]
+            percentile_ranks_player1 = [rank / 100 for rank in percentile_ranks_player1]  # Convert to floats
+            ax1.plot(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], linewidth=2, label=player_name1)
+            ax1.fill(angles, percentile_ranks_player1 + [percentile_ranks_player1[0]], alpha=0.25)
+            ax1.set_xticks(angles[:-1])
+            ax1.set_xticklabels(numeric_columns, color='white', size=8)
+            ax1.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax1.set_title(f'{player_name1} Percentile Comparison', color='white')
+            
+            # Plot for Player 2
+            player_name2 = player2[0]
+            selected_player_row2 = top_point_guards[top_point_guards['Player'] == player_name2]
+            player_data2 = selected_player_row2[numeric_columns]
+            percentile_ranks_player2 = [percentileofscore(league_data[column], player_data2[column]) for column in numeric_columns]
+            percentile_ranks_player2 = [rank / 100 for rank in percentile_ranks_player2]  # Convert to floats
+            ax2.plot(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], linewidth=2, label=player_name2)
+            ax2.fill(angles, percentile_ranks_player2 + [percentile_ranks_player2[0]], alpha=0.25)
+            ax2.set_xticks(angles[:-1])
+            ax2.set_xticklabels(numeric_columns, color='white', size=8)
+            ax2.set_yticks(np.linspace(0, 1, 5), ['0%', '25%', '50%', '75%', '100%'], color='white', size=7)
+            ax2.set_title(f'{player_name2} Percentile Comparison', color='white')
+            
+            # Final adjustments
+            plt.subplots_adjust(wspace=0.4)
+            plt.style.use('dark_background')
+            st.pyplot(fig)
+else: 
+    st.write("Select an option on the sidebar below to display Player Charts.")

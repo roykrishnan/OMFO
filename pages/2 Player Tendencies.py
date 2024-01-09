@@ -67,15 +67,15 @@ def triangle():
     for index, row in eff_df_pg.iterrows():
         eff = row['Eff']
         if eff > A_pg:
-            eff_df_pg.at[index, 'Helio Score'] = 'A'
+            eff_df_pg.at[index, 'Helio Grade'] = 'A'
         elif eff > B_pg:
-            eff_df_pg.at[index, 'Helio Score'] = 'B'
+            eff_df_pg.at[index, 'Helio Grade'] = 'B'
         elif eff > C_pg:
-            eff_df_pg.at[index, 'Helio Score'] = 'C'
+            eff_df_pg.at[index, 'Helio Grade'] = 'C'
         elif eff > D_pg:
-            eff_df_pg.at[index, 'Helio Score'] = "D"
+            eff_df_pg.at[index, 'Helio Grade'] = "D"
         else:
-            eff_df_pg.at[index, 'Helio Score'] = "F"
+            eff_df_pg.at[index, 'Helio Grade'] = "F"
 
     # Creating displays and focus values: 
     left_column, middle_column, right_column = st.columns(3)
@@ -105,15 +105,15 @@ def triangle():
     for index, row in eff_df_SG.iterrows():
         eff = row['Eff']
         if eff > A_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'A'
+            eff_df_SG.at[index, 'Helio Grade'] = 'A'
         elif eff > B_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'B'
+            eff_df_SG.at[index, 'Helio Grade'] = 'B'
         elif eff > C_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'C'
+            eff_df_SG.at[index, 'Helio Grade'] = 'C'
         elif eff > D_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'D'
+            eff_df_SG.at[index, 'Helio Grade'] = 'D'
         else:
-            eff_df_SG.at[index, 'Helio Score'] = 'F'
+            eff_df_SG.at[index, 'Helio Grade'] = 'F'
 
     with middle_column:
         st.subheader('Offensive Impact (SG):')
@@ -136,15 +136,15 @@ def triangle():
     for index, row in eff_df_C.iterrows():
         eff = row['Eff']
         if eff > A_C:
-            eff_df_C.at[index, 'Helio Score'] = 'A'
+            eff_df_C.at[index, 'Helio Grade'] = 'A'
         elif eff > B_C:
-            eff_df_C.at[index, 'Helio Score'] = 'B'
+            eff_df_C.at[index, 'Helio Grade'] = 'B'
         elif eff > C_C:
-            eff_df_C.at[index, 'Helio Score'] = 'C'
+            eff_df_C.at[index, 'Helio Grade'] = 'C'
         elif eff > D_C:
-            eff_df_C.at[index, 'Helio Score'] = 'D'
+            eff_df_C.at[index, 'Helio Grade'] = 'D'
         else:
-            eff_df_C.at[index, 'Helio Score'] = 'F'
+            eff_df_C.at[index, 'Helio Grade'] = 'F'
 
     with right_column:
         st.subheader('Offensive Impact (C):')
@@ -168,15 +168,15 @@ def corners():
     for index, row in eff_df_pg.iterrows():
         eff = row['Eff']
         if eff > A_pg:
-            eff_df_pg.at[index, 'Helio Score'] = 'A'
+            eff_df_pg.at[index, 'Helio Grade'] = 'A'
         elif eff > B_pg:
-            eff_df_pg.at[index, 'Helio Score'] = 'B'
+            eff_df_pg.at[index, 'Helio Grade'] = 'B'
         elif eff > C_pg:
-            eff_df_pg.at[index, 'Helio Score'] = 'C'
+            eff_df_pg.at[index, 'Helio Grade'] = 'C'
         elif eff > D_pg:
-            eff_df_pg.at[index, 'Helio Score'] = "D"
+            eff_df_pg.at[index, 'Helio Grade'] = "D"
         else:
-            eff_df_pg.at[index, 'Helio Score'] = "F"
+            eff_df_pg.at[index, 'Helio Grade'] = "F"
 
     # Creating displays and focus values: 
     left_column, right_column = st.columns(2)
@@ -207,15 +207,15 @@ def corners():
     for index, row in eff_df_SG.iterrows():
         eff = row['Eff']
         if eff > A_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'A'
+            eff_df_SG.at[index, 'Helio Grade'] = 'A'
         elif eff > B_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'B'
+            eff_df_SG.at[index, 'Helio Grade'] = 'B'
         elif eff > C_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'C'
+            eff_df_SG.at[index, 'Helio Grade'] = 'C'
         elif eff > D_SG:
-            eff_df_SG.at[index, 'Helio Score'] = 'D'
+            eff_df_SG.at[index, 'Helio Grade'] = 'D'
         else:
-            eff_df_SG.at[index, 'Helio Score'] = 'F'
+            eff_df_SG.at[index, 'Helio Grade'] = 'F'
 
     with right_column:
         st.subheader('Offensive Impact (PF):')
@@ -284,8 +284,8 @@ elif selection == "PG/SG/C" and selection1 == "Trigger Score (2023 Finals: BETA)
 elif selection == "PG/SG/C" and selection1 == "Floor Space Tendency (2023 Finals: BETA)":
     yeydatadf = pd.read_csv("data/yeydata.csv")
     st.dataframe(yeydatadf, hide_index= True)
-    st.write('Mashes: How often the Center attempts a Field Goal in the Paint')
-    st.write('Mashes: How often the Center passes the ball out of the Paint')
+    st.write('Definition of Mash: How often the Center attempts a Field Goal in the Paint')
+    st.write('Definition of Pss: How often the Center passes the ball out of the Paint')
     st.write(""" **Note:** Centers that mash well usually have teammates that give them the ball in beneficial situations as
              well as position themselves extremely well on the roll and/or the rebound to be able to be able to score more effectively.""")
 elif selection == "PG/SG/C" and selection1 == "Careless Index":
@@ -302,8 +302,8 @@ with st.expander("What is Trigger Score"):
             are to shoot the ball. This can be used in an effort to bait corner shooters into bad shots, but a careful balance is needed as high 
              Trigger Score players are often amaong the league's best shooters.""")
 with st.expander("What is the Careless Index?"):
-    st.write(""" Each pass should should be in an effort to lead to a better scoring opportunity, the players that turn the ball over consistently without
-             being able to consistently deliver scoring opportunitied are ranked high on the Careless Index. """)
+    st.write(""" The higher the number the better. Each pass should be in an effort to lead to a better scoring opportunity, the players that turn the ball over consistently without
+             being able to deliver scoring opportunities in return are ranked high on the Careless Index.""")
 with st.expander("Understanding the Mash v. Pass Ratio"):
     st.write(""" Centers that show a tendency to attempt a field goal in the paint more than simply pass it back out show a more aggressive profile of wanting to score the ball.
              They can be regarded as 'non-reset Centers', players that have the ability to make a play on their own accord.""")

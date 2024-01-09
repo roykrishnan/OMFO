@@ -8,10 +8,11 @@ st.sidebar.image("images/small_logo.png",caption="Developed and Maintained by Ro
 
 # Rest of your Streamlit code
 st.title("The One Man Front Office | OMFO")
+st.subheader("By: Roy Krishnan")
 st.markdown("**Liquid Pro Am** [here](https://twitter.com/LiquidProAm_) | **Roy's personal X Account** [here](https://twitter.com/RoyKrishnan_) | **Roy's 2K Esports X (rarely checked these days)** [here](https://twitter.com/RoyKhris)") 
 st.subheader('', divider='grey')
 
-st.write("Where we'll release news: ")
+st.write("Where we'll release news, new releases, and updates: ")
 st.link_button('OMFO X Account', 'https://twitter.com/1ManFrontOffice')
 
 with st.expander("**What is OMFO?**"):
@@ -39,13 +40,16 @@ with st.expander("App Limitations "):
     st.write("Furthermore, the 3v3 data collection publicly available at the moment is not the most reliable. This is something we're hoping to address in our Season 7 release.")
 with st.expander("**Premium Model**"):
     st.write("""
-            As soon as Season 7 starts, we'll be shifting towards a premium model to provide more information around Rookies and the translation between 
-            amateur 2K and professional 2K, we'll be able to answer questions like" "how do you know amateur talent is going to translate to the league?"
+            As soon as Season 7 starts, we'll be shifting towards a premium model to provide more information and the translation between 
+            amateur 2K and professional 2K, we'll be able to answer questions like 'how do you know amateur talent is going to translate to the league?'
+            
             We'll also have: 
             - Rotation Rercentages (How often does each team Stack/Triangle/Circle etc.?)
             - Off-Ball Defender status (Who do you want switched on ball?)
             - PG Habits: What are the opposing PG's tendencies?
                 - For example: in the Turn Tournament last year one PG has shot 20 fades in 5v5: 17 fades from the left wing, 3 from the right wing. He 10/17 on the left fade, 0/3 going right. My team forced him to fade to the right (his off hand) every time we played him (knowing he wouldn't).
+            
+             
              
              """)
     st.write('- Explanations on how to actually use analytics to get positive outcomes for your team')
