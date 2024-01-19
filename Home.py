@@ -56,8 +56,7 @@ with st.expander("**Premium Model**"):
 with st. expander("**You want to be in the 2K League? Here's five things you need to know:**"):
     st.write("""
             There's hopefully going to be a lot of players/analysts/hopeful coaches using this app. I want to *very transparent* with you just because I wish someone was with me and was once you myself. 
-            Being in the league is *EXPONENTIALLY* harder than you think. I cannot stress enough how much your mental health will take a beating. You are going to work 80 hour weeks
-            for seven straight months for initially around $40,000-60,000. No one is bigger than the organization, and they should and will 100% of the time put themselves first. Therefore you can also put yourself first by knowing the following.
+            Being in the league is *EXPONENTIALLY* harder than you think. I cannot stress enough how much your mental health will be tested, therefore you can also put yourself first by knowing the following.
 
             1. Pick an organization that reflects your interests (eg. if your #1 priority is the Business of Esports try to get in with an org that values business). If your 
              values don't reflect the organization's you're going to constantly feel frustrated and like there is way more to be done. You simply will not feel fulfilled if your #1 goal is winning (for example) and you don't feel like the organization's decision making reflects that.
