@@ -61,7 +61,7 @@ with st. expander("**You want to be in the 2K League? Here's five things you nee
             1. Pick an organization that reflects your interests (eg. if your #1 priority is the Business of Esports try to get in with an org that values business). If your 
              values don't reflect the organization's you're going to constantly feel frustrated and like there is way more to be done. You simply will not feel fulfilled if your #1 goal is winning (for example) and you don't feel like the organization's decision making reflects that.
 
-            2. There's an art to corporate, be familiar with it. Hiring decisions are made by Directors and Vice Presidents, not by how many vouches you have on X. Being a great coach and a bad interviewer will get you nothing.
+            2. There's an art to corporate, be familiar with it. Hiring decisions are made by those in upper management, not by how many vouches you have on X. Being a great coach and a bad interviewer will get you nothing.
              
             3. Know exactly where you bring value. In one sentence be able to convey what you bring to the table that someone else either cannot, or cannot at your level.
              
