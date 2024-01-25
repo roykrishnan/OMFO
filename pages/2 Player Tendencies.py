@@ -303,7 +303,7 @@ with st.expander("What is Trigger Score"):
              Trigger Score players are often amaong the league's best shooters.""")
 with st.expander("What is the Careless Index?"):
     st.write(""" The higher the number the better. Each pass should be in an effort to lead to a better scoring opportunity, the players that turn the ball over consistently without
-             being able to deliver scoring opportunities in return are ranked high on the Careless Index.""")
+             being able to deliver scoring opportunities in return are ranked low on the Careless Index.""")
 with st.expander("Understanding the Mash v. Pass Ratio"):
     st.write(""" Centers that show a tendency to attempt a field goal in the paint more than simply pass it back out show a more aggressive profile of wanting to score the ball.
              They can be regarded as 'non-reset Centers', players that have the ability to make a play on their own accord.""")
