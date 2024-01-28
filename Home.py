@@ -49,7 +49,7 @@ with st.expander("**Premium Model**"):
             - PG Habits: What are the opposing PG's tendencies?
                 - For example: in the Turn Tournament last year one PG has shot 20 fades in 5v5: 17 fades from the left wing, 3 from the right wing. He 10/17 on the left fade, 0/3 going right. My team forced him to fade to the right (his off hand) every time we played him (knowing he wouldn't).
 
-            For $199 a month, your organization can have a data dashboard that allows you to dynamically ask questions and get answers in real time. We function as that Assistant Coach with all the numbers, displayed in perfect reporting to get your gameplan's to that next level. 
+            For $199 a month, your organization can have a data dashboard that allows you to dynamically ask questions and get answers in real time. We function as that Assistant Coach with all the numbers, displayed in perfect reporting to get your gameplan to that next level. 
              
              
              """)
