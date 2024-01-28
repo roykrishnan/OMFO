@@ -52,7 +52,7 @@ with st.expander("**Premium Model**"):
              
              
              """)
-    st.write('- Explanations on how to actually use analytics to get positive outcomes for your team')
+    st.write('- Explanations (like the above) on how to actually use analytics to get positive outcomes for your team')
 with st. expander("**You want to be in the 2K League? Here's five things you need to know:**"):
     st.write("""
             There's hopefully going to be a lot of players/analysts/hopeful coaches using this app. I want to *very transparent* with you just because I wish someone was with me and was once you myself. 
