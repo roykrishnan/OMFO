@@ -40,15 +40,16 @@ with st.expander("App Limitations "):
     st.write("Furthermore, the 3v3 data collection publicly available at the moment is not the most reliable. This is something we're hoping to address in our Season 7 release.")
 with st.expander("**Premium Model**"):
     st.write("""
-            As soon as Season 7 starts, we'll be shifting towards a premium model to provide more information and the translation between 
+            As soon as Season 7 starts, we'll be shifting towards a $199/month model to provide more information and the translation between 
             amateur 2K and professional 2K, we'll be able to answer questions like 'how do you know amateur talent is going to translate to the league?'
             
-            We'll also have: 
+            We'll have: 
             - Rotation Percentages (How often does each team Stack/Triangle/Circle etc.?)
             - Off-Ball Defender status (Who do you want switched on ball?)
             - PG Habits: What are the opposing PG's tendencies?
                 - For example: in the Turn Tournament last year one PG has shot 20 fades in 5v5: 17 fades from the left wing, 3 from the right wing. He 10/17 on the left fade, 0/3 going right. My team forced him to fade to the right (his off hand) every time we played him (knowing he wouldn't).
-            
+
+            For $199 a month, your organization can have a data dashboard that allows you to dynamically ask questions and get answers in real time. We function as that Assistant Coach with all the numbers, displayed in perfect reporting to get your gameplan's to that next level. 
              
              
              """)
